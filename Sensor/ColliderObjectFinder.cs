@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Sensor
 {
-    public class ObjectFinder
+    public class ColliderObjectFinder
     {
         public T[] GetComponents<T>(Vector3 origin, float radius) where T : Component
         {
