@@ -10,16 +10,21 @@ namespace SceneTransition
 
         public void TransitionToNextScene(Action onTransitionComplete)
         {
-            transitionComplete = onTransitionComplete;
-            currentScene = SceneManager.GetActiveScene();
-            var currentSceneIndex = currentScene.buildIndex;
+            var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             var nextSceneIndex = currentSceneIndex + 1;
             if (nextSceneIndex >= SceneManager.sceneCountInBuildSettings)
             {
                 nextSceneIndex = 0;
             }
+            TransitionToScene(nextSceneIndex, onTransitionComplete);
+        }
+
+        public void TransitionToScene(int sceneIndex, Action onTransitionComplete)
+        {
+            currentScene = SceneManager.GetActiveScene();
+            transitionComplete = onTransitionComplete;
             SceneManager.sceneLoaded += UnloadOldScene;
-            SceneManager.LoadSceneAsync(nextSceneIndex, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
         }
 
         private void UnloadOldScene(Scene scene, LoadSceneMode loadMode)

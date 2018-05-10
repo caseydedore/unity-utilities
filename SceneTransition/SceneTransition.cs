@@ -14,5 +14,10 @@ namespace SceneTransition
         {
             manager.TransitionToNextScene(onTransitionComplete.Invoke);
         }
+
+        public void NextScene(int sceneIndex)
+        {
+            manager.TransitionToScene(sceneIndex, onTransitionComplete.Invoke);
+        }
     }
 }
