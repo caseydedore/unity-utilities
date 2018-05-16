@@ -23,21 +23,21 @@ namespace SceneTransition
         {
             currentScene = SceneManager.GetActiveScene();
             transitionComplete = onTransitionComplete;
-            SceneManager.sceneLoaded += UnloadOldScene;
+            SceneManager.sceneLoaded += SceneLoaded;
+            SceneManager.sceneUnloaded += TransitionComplete;
             SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
         }
 
-        private void UnloadOldScene(Scene scene, LoadSceneMode loadMode)
+        private void SceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
-            SceneManager.sceneLoaded -= UnloadOldScene;
+            SceneManager.sceneLoaded -= SceneLoaded;
             SceneManager.SetActiveScene(scene);
-            SceneManager.sceneUnloaded += OldSceneUnloaded;
             SceneManager.UnloadSceneAsync(currentScene);
         }
 
-        private void OldSceneUnloaded(Scene scene)
+        private void TransitionComplete(Scene scene)
         {
-            SceneManager.sceneUnloaded -= OldSceneUnloaded;
+            SceneManager.sceneUnloaded -= TransitionComplete;
             transitionComplete();
             transitionComplete = () => { };
         }
